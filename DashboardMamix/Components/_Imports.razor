@@ -1,0 +1,33 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using Microsoft.FluentUI.AspNetCore.Components
+@using Microsoft.FluentUI.AspNetCore.Components.Icons
+
+
+@* ── Namespaces do Projeto ────────────────────────── *@
+@using DashboardPekus
+@using DashboardPekus.Components
+@using DashboardPekus.Components.Layout
+@using DashboardPekus.Components.Dashboard
+@using DashboardPekus.Components.Pages
+
+@* ── Arquitetura Pekus (AppCode) ──────────────────── *@
+@using DashboardPekus.AppCode.Model
+@using DashboardPekus.AppCode.RN
+@using DashboardPekus.AppCode.DAO
+
+@* ── Bibliotecas de UI ────────────────────────────── *@
+@using MudBlazor
+
+@* ── Bibliotecas de PDF ────────────────────────────── *@
+@using QuestPDF.Fluent
+@using QuestPDF.Helpers
+@using QuestPDF.Infrastructure
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resources.Idiomas> L

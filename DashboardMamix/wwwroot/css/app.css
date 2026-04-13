@@ -1,0 +1,571 @@
+﻿/* ============================================================
+   MAMIX DASHBOARD — app.css
+   Projeto: DashboardPekus | Pekus Tecnologia
+   ============================================================ */
+
+/* ── Variáveis ─────────────────────────────────────────────── */
+:root {
+    --mx-primary: #6366f1;
+    --mx-primary-rgb: 99, 102, 241;
+    --mx-primary-lt: rgba(99, 102, 241, .10);
+    --mx-success: #10b981;
+    --mx-danger: #ef4444;
+    --mx-warning: #f59e0b;
+    --mx-info: #3b82f6;
+    --mx-bg: #f0f1f7;
+    --mx-text: #12263f;
+    --mx-muted: #95aac9;
+    --mx-border: #edf2f9;
+    --mx-white: #ffffff;
+    --mx-topbar-h: 64px;
+    --mx-sidebar-w: 240px;
+    /* Cores do gráfico — idênticas ao Mamix */
+    --chart-blue: #6470ef;
+    --chart-green: #28c8a0;
+    --chart-purple: #c47fff;
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--mx-bg);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Remove elementos padrão do template Blazor */
+.top-row {
+    display: none !important;
+}
+
+#blazor-error-ui {
+    display: none;
+}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+.topbar-mamix {
+    background: var(--mx-white) !important;
+    border-bottom: 1px solid var(--mx-border) !important;
+    height: var(--mx-topbar-h) !important;
+    z-index: 1300 !important;
+    box-shadow: 0 1px 6px rgba(18,38,63,.05) !important;
+    color: var(--mx-text) !important;
+}
+
+/* Campo de busca central */
+.topbar-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f6fa;
+    border-radius: 8px;
+    padding: 6px 14px;
+    margin-left: 12px;
+    min-width: 220px;
+}
+
+.topbar-search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: .875rem;
+    color: var(--mx-text);
+    width: 100%;
+}
+
+    .topbar-search-input::placeholder {
+        color: var(--mx-muted);
+    }
+
+/* Avatar + nome do usuário */
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px 0 8px;
+    cursor: pointer;
+    border-left: 1px solid var(--mx-border);
+    margin-left: 6px;
+    height: 100%;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--mx-text);
+    white-space: nowrap;
+}
+
+.user-role {
+    font-size: .72rem;
+    color: var(--mx-muted);
+}
+
+.user-avatar {
+    background-color: var(--mx-primary) !important;
+    color: white !important;
+    font-size: .82rem !important;
+    font-weight: 700 !important;
+    width: 36px !important;
+    height: 36px !important;
+}
+
+/* ============================================================
+   SIDEBAR / DRAWER
+   ============================================================ */
+.sidebar-mamix {
+    background-color: var(--mx-white) !important;
+    border-right: 1px solid var(--mx-border) !important;
+    width: var(--mx-sidebar-w) !important;
+}
+
+.mud-drawer-content {
+    background-color: var(--mx-white) !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Cabeçalho logo */
+.sidebar-header {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    min-height: var(--mx-topbar-h);
+    border-bottom: 1px solid var(--mx-border);
+    flex-shrink: 0;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--mx-primary-lt);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Área rolável */
+.sidebar-scroll {
+    flex: 1;
+    padding: 6px 0 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+    .sidebar-scroll::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+        background: var(--mx-border);
+        border-radius: 4px;
+    }
+
+/* Label de seção */
+.nav-section-label {
+    display: block;
+    font-size: .62rem !important;
+    font-weight: 700 !important;
+    color: var(--mx-muted) !important;
+    letter-spacing: .1em;
+    padding: 14px 22px 4px !important;
+    text-transform: uppercase !important;
+}
+
+/* Links de menu */
+.nav-item {
+    border-radius: 6px !important;
+    margin: 2px 8px !important;
+    padding: 8px 10px !important;
+    font-size: .875rem !important;
+    font-weight: 500 !important;
+    color: #5d7186 !important;
+    transition: background .15s, color .15s !important;
+}
+
+    .nav-item:hover {
+        background: var(--mx-primary-lt) !important;
+        color: var(--mx-primary) !important;
+    }
+
+    .nav-item.active,
+    .nav-item[aria-current="page"] {
+        background: var(--mx-primary-lt) !important;
+        color: var(--mx-primary) !important;
+        font-weight: 600 !important;
+    }
+
+    .nav-item .mud-nav-link-icon {
+        color: inherit !important;
+    }
+
+/* Sub-itens dos grupos */
+.nav-subitem {
+    font-size: .845rem !important;
+    padding: 7px 10px 7px 42px !important;
+    color: #8298aa !important;
+    margin: 1px 8px !important;
+    border-radius: 6px !important;
+    transition: background .15s, color .15s !important;
+}
+
+    .nav-subitem::before {
+        content: "–";
+        margin-right: 8px;
+        color: var(--mx-muted);
+    }
+
+    .nav-subitem:hover {
+        color: var(--mx-primary) !important;
+    }
+
+/* ============================================================
+   CONTEÚDO PRINCIPAL
+   ============================================================ */
+.main-content-wrapper {
+    background: var(--mx-bg) !important;
+    min-height: 100vh;
+}
+
+.page-content {
+    padding: calc(var(--mx-topbar-h) + 24px) 28px 48px;
+}
+
+/* ============================================================
+   CABEÇALHO DA PÁGINA
+   ============================================================ */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.dashboard-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--mx-text);
+    margin: 0 0 4px;
+}
+
+.dashboard-subtitle {
+    font-size: .875rem;
+    color: var(--mx-muted);
+    margin: 0;
+}
+
+.export-btn {
+    background: var(--mx-primary) !important;
+    color: white !important;
+    text-transform: none !important;
+    border-radius: 8px !important;
+    height: 40px !important;
+    padding: 0 20px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 4px 14px rgba(var(--mx-primary-rgb), .35) !important;
+}
+
+    .export-btn:hover {
+        box-shadow: 0 6px 20px rgba(var(--mx-primary-rgb), .45) !important;
+        transform: translateY(-1px);
+    }
+
+/* ============================================================
+   CARDS DE KPI  (igual aos do screenshot)
+   ============================================================ */
+.mamix-card-wrapper {
+    background: var(--mx-white);
+    border-radius: 12px;
+    padding: 20px 22px;
+    border: 1px solid var(--mx-border);
+    box-shadow: 0 2px 10px rgba(18,38,63,.04);
+    transition: transform .2s, box-shadow .2s;
+    height: 100%;
+}
+
+    .mamix-card-wrapper:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(18,38,63,.09);
+    }
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.info-section {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-title {
+    display: block;
+    color: var(--mx-muted);
+    font-size: .78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 6px;
+}
+
+.card-value {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--mx-text);
+    margin: 0 0 10px;
+    line-height: 1.1;
+}
+
+.trend-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: .82rem;
+    flex-wrap: wrap;
+}
+
+.trend-up {
+    color: var(--mx-success);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.trend-down {
+    color: var(--mx-danger);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.since-text {
+    color: var(--mx-muted);
+}
+
+/* Ícone do card — quadrado arredondado com degradê suave */
+.icon-section {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Cores exatas do Mamix para os ícones */
+.bg-purple {
+    background: linear-gradient(135deg, #a78bfa, #6366f1);
+}
+
+.bg-green {
+    background: linear-gradient(135deg, #34d399, #10b981);
+}
+
+.bg-blue {
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+}
+
+.bg-orange {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+/* ============================================================
+   CARDS DE GRÁFICO
+   ============================================================ */
+.chart-card {
+    background: var(--mx-white);
+    border-radius: 12px;
+    padding: 20px 22px;
+    border: 1px solid var(--mx-border);
+    box-shadow: 0 2px 10px rgba(18,38,63,.04);
+    height: 100%;
+}
+
+.chart-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chart-title {
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--mx-text);
+    margin: 0 0 3px;
+    letter-spacing: .03em;
+}
+
+.chart-subtitle {
+    font-size: .78rem;
+    color: var(--mx-muted);
+    margin: 0;
+}
+
+.chart-container {
+    position: relative;
+    height: 280px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .78rem;
+    color: var(--mx-muted);
+    white-space: nowrap;
+}
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   TABELA DE PEDIDOS
+   ============================================================ */
+.status-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+.status-success {
+    background: rgba(16,185,129,.12);
+    color: #059669;
+}
+
+.status-warning {
+    background: rgba(245,158,11,.12);
+    color: #d97706;
+}
+
+.status-danger {
+    background: rgba(239,68,68,.12);
+    color: #dc2626;
+}
+
+.status-info {
+    background: rgba(59,130,246,.12);
+    color: #2563eb;
+}
+
+/* ============================================================
+   RESUMO DO MÊS
+   ============================================================ */
+.resumo-item {
+    margin-bottom: 18px;
+}
+
+.resumo-label {
+    font-size: .84rem;
+    color: var(--mx-text);
+    font-weight: 500;
+}
+
+.resumo-valor {
+    font-size: .84rem;
+    font-weight: 700;
+    color: var(--mx-text);
+}
+
+/* ============================================================
+   UTILITÁRIOS
+   ============================================================ */
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+.gap-2 {
+    gap: 8px !important;
+}
+
+.gap-3 {
+    gap: 12px !important;
+}
+
+canvas {
+    width: 100% !important;
+}
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+@media (max-width: 960px) {
+    .page-content {
+        padding: calc(var(--mx-topbar-h) + 14px) 14px 40px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .topbar-search {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .card-value {
+        font-size: 1.4rem;
+    }
+
+    .user-info {
+        display: none !important;
+    }
+
+    .topbar-user {
+        border-left: none;
+    }
+}
+.welcome-banner {
+    background: linear-gradient(90deg, rgba(99, 102, 241, 0.08) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 16px;
+    padding: 35px;
+    border: 1px solid var(--mx-border);
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fw-bold {
+    font-weight: 700 !important;
+}

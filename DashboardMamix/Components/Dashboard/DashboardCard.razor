@@ -1,0 +1,63 @@
+@* =====================================================   
+   DashboardCard.razor   
+   Pasta: Components/Dashboard/DashboardCard.razor   
+   ===================================================== *@
+<div class="mamix-card-wrapper">
+    <div class="card-content">
+
+        <div class="info-section">
+            <span class="card-title">@Title</span>
+            <h2 class="card-value">@Value</h2>
+            <div class="trend-section">
+                @if (IsPositive)
+                {
+                    <span class="trend-up">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right:2px;">
+                            <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" />
+                        </svg>
+                        @Percentage.ToString("0.00")%
+                    </span>
+                }
+                else
+                {
+                    <span class="trend-down">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right:2px;">
+                            <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
+                        </svg>
+                        @Percentage.ToString("0.00")%
+                    </span>
+                }
+                <span class="since-text">Desde o mês passado</span>
+            </div>
+        </div>
+
+        <div class="icon-section @ColorClass">
+            @if (Icon is string iconPath)
+            {
+                @* Para os ícones da Home (MudBlazor) *@
+                <MudIcon Icon="@iconPath" Style="color:white; font-size:22px;" />
+            }
+            else if (Icon != null)
+            {
+                @* Para os ícones do Dashboard (FluentUI) *@
+                <div style="color:white; display:flex; align-items:center; justify-content:center;">
+                    <FluentIcon Value="@((Microsoft.FluentUI.AspNetCore.Components.Icon)Icon)"
+                                Color="Microsoft.FluentUI.AspNetCore.Components.Color.Custom"
+                                CustomColor="white"
+                                Size="IconSize.Size24" />
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public double Percentage { get; set; }
+    [Parameter] public bool IsPositive { get; set; }
+    [Parameter] public string ColorClass { get; set; } = "bg-purple";
+    
+    [Parameter] public object Icon { get; set; } = default!;
+}

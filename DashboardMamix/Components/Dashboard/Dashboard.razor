@@ -1,0 +1,190 @@
+﻿@* =====================================================   
+   Dashboard.razor — Traduzido para Pekus
+   ===================================================== *@
+@page "/dashboard"
+@namespace DashboardPekus.Components.Dashboard
+@rendermode InteractiveServer
+
+@* ── CABEÇALHO ──────────────────────────────────────── *@
+<div class="dashboard-header">
+    <div>
+        <h4 class="dashboard-title">@L["Dashboards"]</h4>
+        @* A data abaixo também se ajusta automaticamente ao idioma *@
+        <p class="dashboard-subtitle">@L["PainelControle"] — @DateTime.Now.ToString("D", System.Globalization.CultureInfo.CurrentCulture)</p>
+    </div>
+    <MudButton Variant="Variant.Filled"
+               StartIcon="@MudBlazor.Icons.Material.Filled.Download"
+               Color="MudBlazor.Color.Primary"
+               Class="export-btn"
+               OnClick="ExportarRelatorio">
+        @L["ExportarRelatorio"]
+    </MudButton>
+</div>
+
+@* ── CARDS KPI ───────────────────────────────────────── *@
+<MudGrid Spacing="4" Class="mb-6">
+    @if (statsList == null)
+    {
+        @for (int i = 0; i < 4; i++)
+        {
+            <MudItem xs="12" sm="6" md="3">
+                <div class="-card-wrapper">
+                    <MudSkeleton Height="60px" />
+                    <MudSkeleton Height="16px" Class="mt-3" Width="60%" />
+                </div>
+            </MudItem>
+        }
+    }
+    else
+    {
+        @foreach (var item in statsList)
+        {
+            <MudItem xs="12" sm="6" md="3">
+                @* Note que aqui traduzimos o título que vem do Model se necessário,
+                   ou usamos a chave do dicionário *@
+                <DashboardCard Title="@L[item.DsTitulo]"
+                               Value="@item.DsValor"
+                               Percentage="@item.NrVariacao"
+                               IsPositive="@item.FlPositivo"
+                               ColorClass="@item.DsCorClass"
+                               Icon="@GetFluentIcon(item.DsIcone)" />
+            </MudItem>
+        }
+    }
+</MudGrid>
+
+@* ── GRÁFICOS ────────────────────────────────────────── *@
+<MudGrid Spacing="4" Class="mb-6">
+
+    <MudItem xs="12" md="8">
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <h6 class="chart-title">@L["EstatisticasVendas"]</h6>
+                </div>
+                <div class="d-flex align-center" style="gap:20px;">
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#6470ef;"></span>
+                        <span>@L["Vendas"]</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#28c8a0;"></span>
+                        <span>@L["Receita"]</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#c47fff;"></span>
+                        <span>@L["Lucro"]</span>
+                    </div>
+                    <MudSelect T="string"
+                               Value="periodoSelecionado"
+                               ValueChanged="OnPeriodoChanged"
+                               Dense="true"
+                               Margin="Margin.Dense"
+                               Variant="Variant.Outlined"
+                               Style="width:120px; font-size:.8rem;">
+                        <MudSelectItem Value="@("Semanal")">@L["Semanal"]</MudSelectItem>
+                        <MudSelectItem Value="@("Mensal")">@L["Mensal"]</MudSelectItem>
+                        <MudSelectItem Value="@("Anual")">@L["Anual"]</MudSelectItem>
+                    </MudSelect>
+                </div>
+            </div>
+            <div class="chart-container" style="height:300px;">
+                <canvas id="mainDashboardChart"></canvas>
+            </div>
+        </div>
+    </MudItem>
+
+    <MudItem xs="12" md="4">
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <h6 class="chart-title">@L["CategoriasMaisVendidas"]</h6>
+                </div>
+            </div>
+            <div class="d-flex justify-center" style="gap:16px; margin-bottom:8px;">
+                @* Tradução das categorias do Radar *@
+                <div class="legend-item">
+                    <span class="legend-dot" style="background:#6470ef;"></span>
+                    <span>@L["Eletronicos"]</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background:#c47fff;"></span>
+                    <span>@L["Roupas"]</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background:#28c8a0;"></span>
+                    <span>@L["Moveis"]</span>
+                </div>
+            </div>
+            <div class="chart-container" style="height:260px;">
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div class="d-flex justify-space-between mt-4 px-2">
+                <div class="text-center">
+                    <p class="chart-subtitle mb-0">@L["EsteMes"]</p>
+                    <p style="font-size:1rem;font-weight:700;color:#28c8a0;margin:0;">+74.83%</p>
+                </div>
+                <div class="text-center">
+                    <p class="chart-subtitle mb-0">@L["MesPassado"]</p>
+                    <p style="font-size:1rem;font-weight:700;color:#6470ef;margin:0;">+56.90%</p>
+                </div>
+            </div>
+        </div>
+    </MudItem>
+</MudGrid>
+
+@* ── TABELA + RESUMO ──────────────────────────────────── *@
+<MudGrid Spacing="4">
+
+    <MudItem xs="12" md="8">
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <h6 class="chart-title">@L["PedidosRecentes"]</h6>
+                <MudButton Variant="Variant.Text"
+                           Color="MudBlazor.Color.Primary"
+                           Size="MudBlazor.Size.Small"
+                           Style="text-transform:none; font-weight:600;">
+                    @L["VerTodos"] →
+                </MudButton>
+            </div>
+
+            <MudTable Items="@pedidosRecentes" Dense="true" Hover="true" Elevation="0" Style="background:transparent;">
+                <HeaderContent>
+                    <MudTh Style="...">@L["TabelaPedido"]</MudTh>
+                    <MudTh Style="...">@L["TabelaCliente"]</MudTh>
+                    <MudTh Style="...">@L["TabelaStatus"]</MudTh>
+                    <MudTh Style="...">@L["TabelaValor"]</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd Style="...">@context.NrPedido</MudTd>
+                    <MudTd Style="...">@context.DsCliente</MudTd>
+                    <MudTd>
+                        <span class="status-badge @context.DsStatusClass">@L[context.DsStatus]</span>
+                    </MudTd>
+                    <MudTd Style="...">@context.DsValor</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </div>
+    </MudItem>
+
+    <MudItem xs="12" md="4">
+        <div class="chart-card" style="height:100%;">
+            <div class="chart-card-header">
+                <h6 class="chart-title">@L["ResumoMes"]</h6>
+                @* Data dinâmica no subtítulo *@
+                <span class="chart-subtitle">@DateTime.Now.ToString("MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture)</span>
+            </div>
+
+            @foreach (var r in resumoMes)
+            {
+                <div class="resumo-item">
+                    <div class="d-flex justify-space-between align-center mb-1">
+                        <span class="resumo-label">@L[r.DsLabel]</span>
+                        <span class="resumo-valor">@r.DsValor</span>
+                    </div>
+                    <MudProgressLinear Value="@r.NrProgresso" Color="@r.Cor" Rounded="true" Size="MudBlazor.Size.Small" />
+                </div>
+            }
+        </div>
+    </MudItem>
+</MudGrid>

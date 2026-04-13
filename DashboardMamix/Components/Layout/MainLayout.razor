@@ -1,0 +1,274 @@
+﻿@* =====================================================
+   MainLayout.razor
+   Pasta: Components/Layout/MainLayout.razor
+   ===================================================== *@
+@inherits LayoutComponentBase
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@using System.Globalization
+
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudPopoverProvider />
+
+<MudLayout>
+
+    @* ── TOPBAR ─────────────────────────────────────── *@
+    <MudAppBar Elevation="0" Class="topbar-mamix" Fixed="true">
+
+        @* Botão hambúrguer *@
+        <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                       Color="MudBlazor.Color.Inherit"
+                       Edge="Edge.Start"
+                       OnClick="@ToggleDrawer"
+                       Style="color:#5d7186;" />
+
+        @* Campo de busca central *@
+        <div class="topbar-search">
+            <MudIcon Icon="@Icons.Material.Outlined.Search"
+                     Style="color:#adb5bd; font-size:18px;" />
+            <input type="text"
+                   placeholder="Pesquisar..."
+                   class="topbar-search-input" />
+        </div>
+
+        <MudSpacer />
+
+        @* Ícones de ação *@
+        <MudMenu Icon="@Icons.Material.Outlined.Translate" AnchorOrigin="Origin.BottomCenter" Style="color:#5d7186;">
+            <MudMenuItem OnClick="@(() => MudarIdioma("pt-BR"))">
+                <div class="d-flex align-center gap-2">
+                    <img src="https://flagcdn.com/16x12/br.png" /> Português
+                </div>
+            </MudMenuItem>
+            <MudMenuItem OnClick="@(() => MudarIdioma("en-US"))">
+                <div class="d-flex align-center gap-2">
+                    <img src="https://flagcdn.com/16x12/us.png" /> English
+                </div>
+            </MudMenuItem>
+        </MudMenu>
+        <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Outlined.DarkMode : Icons.Material.Outlined.WbSunny)"
+                       Style="color:#5d7186;"
+                       OnClick="AlternarTema" />
+        <MudIconButton Icon="@Icons.Material.Outlined.ShoppingCart"
+                       Style="color:#5d7186;"
+                       OnClick="@(() => Navigation.NavigateTo("/vendas/pedidos"))" />
+        <MudBadge Content="3" Color="MudBlazor.Color.Error" Overlap="true" Bordered="true" Dot="false">
+            <MudIconButton Icon="@Icons.Material.Outlined.Notifications"
+                           Style="color:#5d7186;"
+                           OnClick="VerNotificacoes" />
+        </MudBadge>
+        <MudIconButton Icon="@Icons.Material.Outlined.Fullscreen"
+                            Style="color:#5d7186;"
+                            OnClick="ToggleFullscreen" />
+
+        @* Avatar do usuário *@
+        <div class="topbar-user">
+            <MudAvatar Color="MudBlazor.Color.Primary" Class="user-avatar" Style="width:36px;height:36px;">
+                DT
+            </MudAvatar>
+            <div class="user-info d-none d-sm-flex flex-column">
+                <span class="user-name">Diogo Tognolli</span>
+            </div>
+        </div>
+
+        <MudIconButton Icon="@Icons.Material.Outlined.Settings"
+                       Style="color:#5d7186;"
+                       OnClick="@(() => Navigation.NavigateTo("/configuracoes"))" />
+    </MudAppBar>
+
+    @* ── SIDEBAR ─────────────────────────────────────── *@
+    <MudDrawer @bind-Open="@_drawerOpen"
+               ClipMode="DrawerClipMode.Always"
+               Elevation="0"
+               Variant="@DrawerVariant.Responsive"
+               Class="sidebar-mamix">
+
+        @* Logo *@
+        <MudDrawerHeader Class="sidebar-header">
+            <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px; width:100%;">
+                <div class="logo-icon">
+                    <MudIcon Icon="@Icons.Material.Filled.AutoGraph" Style="color:#6366f1; font-size:18px;" />
+                </div>
+                <span style="font-weight:800; font-size:1.1rem; color:#12263f; letter-spacing:1px;">
+                    Pekus
+                </span>
+            </a>
+        </MudDrawerHeader>
+
+        @* Navegação *@
+        <div class="sidebar-scroll">
+
+            <span class="nav-section-label">MAIN</span>
+            <MudNavMenu>
+                <MudNavLink Href="/"
+                            Match="NavLinkMatch.All"
+                            Icon="@Icons.Material.Outlined.Home"
+                            Class="nav-item">
+                    Home
+                </MudNavLink>
+                <MudNavLink Href="/dashboard"
+                            Match="NavLinkMatch.All"
+                            Icon="@Icons.Material.Outlined.Dashboard"
+                            Class="nav-item">
+                    Dashboards
+                </MudNavLink>
+
+                <MudNavGroup Title="Sales" Icon="@Icons.Material.Outlined.ShoppingCart"
+                             Class="nav-item" Expanded="false">
+                    <MudNavLink Href="/vendas/resumo" Class="nav-subitem">Resumo</MudNavLink>
+                    <MudNavLink Href="/vendas/produtos" Class="nav-subitem">Produtos</MudNavLink>
+                    <MudNavLink Href="/vendas/pedidos" Class="nav-subitem">Pedidos</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavGroup Title="Analytics" Icon="@Icons.Material.Outlined.Analytics"
+                             Class="nav-item" Expanded="false">
+                    <MudNavLink Href="/analytics/visitas" Class="nav-subitem">Visitas</MudNavLink>
+                    <MudNavLink Href="/analytics/conversao" Class="nav-subitem">Conversão</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavLink Href="/ecommerce"
+                            Icon="@Icons.Material.Outlined.Store"
+                            Class="nav-item">
+                    Ecommerce
+                </MudNavLink>
+
+                <MudNavLink Href="/crm"
+                            Icon="@Icons.Material.Outlined.People"
+                            Class="nav-item">
+                    CRM
+                </MudNavLink>
+
+                <MudNavLink Href="/crypto"
+                            Icon="@Icons.Material.Outlined.CurrencyBitcoin"
+                            Class="nav-item">
+                    Crypto
+                </MudNavLink>
+
+                <MudNavLink Href="/nft"
+                            Icon="@Icons.Material.Outlined.Diamond"
+                            Class="nav-item">
+                    NFT
+                </MudNavLink>
+
+                <MudNavLink Href="/projetos"
+                            Icon="@Icons.Material.Outlined.FolderOpen"
+                            Class="nav-item">
+                    Projects
+                </MudNavLink>
+
+                <MudNavLink Href="/vagas"
+                            Icon="@Icons.Material.Outlined.Work"
+                            Class="nav-item">
+                    Jobs
+                </MudNavLink>
+
+                <MudNavLink Href="/hrm"
+                            Icon="@Icons.Material.Outlined.Badge"
+                            Class="nav-item">
+                    HRM
+                </MudNavLink>
+
+                <MudNavLink Href="/cursos"
+                            Icon="@Icons.Material.Outlined.School"
+                            Class="nav-item">
+                    Courses
+                </MudNavLink>
+
+                <MudNavLink Href="/acoes"
+                            Icon="@Icons.Material.Outlined.ShowChart"
+                            Class="nav-item">
+                    Stocks
+                </MudNavLink>
+
+                <MudNavLink Href="/medico"
+                            Icon="@Icons.Material.Outlined.LocalHospital"
+                            Class="nav-item">
+                    Medical
+                </MudNavLink>
+
+                <MudNavLink Href="/pdv"
+                            Icon="@Icons.Material.Outlined.PointOfSale"
+                            Class="nav-item">
+                    POS System
+                </MudNavLink>
+
+                <MudNavLink Href="/podcast"
+                            Icon="@Icons.Material.Outlined.Mic"
+                            Class="nav-item">
+                    Podcast
+                </MudNavLink>
+            </MudNavMenu>
+
+            <span class="nav-section-label" style="margin-top:8px;">SISTEMA</span>
+            <MudNavMenu>
+                <MudNavLink Href="/configuracoes"
+                            Icon="@Icons.Material.Outlined.Settings"
+                            Class="nav-item">
+                    Configurações
+                </MudNavLink>
+                <MudNavLink Href="/perfil"
+                            Icon="@Icons.Material.Outlined.Person"
+                            Class="nav-item">
+                    Meu Perfil
+                </MudNavLink>
+            </MudNavMenu>
+        </div>
+    </MudDrawer>
+
+    @* ── CONTEÚDO PRINCIPAL ──────────────────────────── *@
+    <MudMainContent Class="main-content-wrapper">
+        <div class="page-content">
+            @Body
+        </div>
+    </MudMainContent>
+
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+    private bool _isDarkMode = false;
+
+    private void ToggleDrawer() => _drawerOpen = !_drawerOpen;
+
+    private void AlternarTema() => _isDarkMode = !_isDarkMode;
+
+    private void MudarIdioma(string cultura)
+    {
+        var uri = new Uri(Navigation.Uri).PathAndQuery;
+        var query = $"/Culture/SetCulture?culture={cultura}&redirectUri={uri}";
+        Navigation.NavigateTo(query, forceLoad: true);
+    }
+
+    private void VerNotificacoes() => Snackbar.Add("Você tem 3 novos relatórios.", Severity.Info);
+
+    private async Task ToggleFullscreen()
+    {
+        await JS.InvokeVoidAsync("eval", "document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()");
+    }
+
+    private MudTheme _theme = new MudTheme()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = "#6366f1",
+            AppbarBackground = "#ffffff",
+            Background = "#f8f9fa",
+            DrawerBackground = "#ffffff",
+            Surface = "#ffffff",
+            TextPrimary = "#12263f"
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "#818cf8",
+            Surface = "#1e293b",
+            Background = "#0b1120",
+            AppbarBackground = "#111827",
+            DrawerBackground = "#111827",
+            TextPrimary = "#f8f9fa",
+            TextSecondary = "#94a3b8"
+        }
+    };
+}

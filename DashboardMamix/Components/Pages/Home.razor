@@ -1,0 +1,129 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@using Microsoft.FluentUI.AspNetCore.Components
+@using Microsoft.FluentUI.AspNetCore.Components.Icons
+<PageTitle>Início - Mamix</PageTitle>
+
+@* ── BANNER DE BOAS-VINDAS ── *@
+<div class="welcome-banner mb-6">
+    <div class="d-flex justify-space-between align-center flex-wrap gap-4">
+        <div>
+            <MudText Typo="Typo.h4" Class="fw-bold mb-1">
+                @(DateTime.Now.Hour < 12 ? "Bom dia" : DateTime.Now.Hour < 18 ? "Boa tarde" : "Boa noite"), Diogo Tognolli 👋
+            </MudText>
+            <MudText Typo="Typo.body1" Color="MudBlazor.Color.Secondary">
+                Bem-vindo de volta! Hoje é @DateTime.Now.ToString("dddd, dd 'de' MMMM", new System.Globalization.CultureInfo("pt-BR")).
+            </MudText>
+        </div>
+        <MudButton Variant="Variant.Filled"
+                   Color="MudBlazor.Color.Primary"
+                   Size="MudBlazor.Size.Large"
+                   OnClick="@(() => Navigation.NavigateTo("/dashboard"))"
+                   StartIcon="@Icons.Material.Filled.AutoGraph"
+                   Class="export-btn">
+            Ver Dashboards
+        </MudButton>
+    </div>
+</div>
+
+@* ── ATALHOS RÁPIDOS (Resumo Visual) ── *@
+<MudGrid Spacing="4" Class="mb-6">
+    <MudItem xs="12" sm="6" md="3">
+        <DashboardCard Title="Vendas Totais"
+                       Value="32.981"
+                       Percentage="4.5"
+                       IsPositive="true"
+                       ColorClass="bg-purple"
+                       Icon="@Icons.Material.Outlined.ShoppingCart" />
+    </MudItem>
+    <MudItem xs="12" sm="6" md="3">
+        <DashboardCard Title="Novos Clientes"
+                       Value="847"
+                       Percentage="12.0"
+                       IsPositive="true"
+                       ColorClass="bg-blue"
+                       Icon="@Icons.Material.Outlined.People" />
+    </MudItem>
+    <MudItem xs="12" sm="6" md="3">
+        <DashboardCard Title="Meta Mensal"
+                       Value="72%"
+                       Percentage="2.1"
+                       IsPositive="true"
+                       ColorClass="bg-green"
+                       Icon="@Icons.Material.Outlined.Flag" />
+    </MudItem>
+    <MudItem xs="12" sm="6" md="3">
+        <DashboardCard Title="Pendências"
+                       Value="5"
+                       Percentage="0.5"
+                       IsPositive="false"
+                       ColorClass="bg-orange"
+                       Icon="@Icons.Material.Outlined.AssignmentLate" />
+    </MudItem>
+</MudGrid>
+
+@* ── SEÇÃO INTERATIVA: ATIVIDADES E ALERTAS ── *@
+<MudGrid Spacing="4">
+    <MudItem xs="12" md="7">
+        <div class="chart-card">
+            <div class="chart-card-header mb-4">
+                <MudText Typo="Typo.h6" Class="fw-bold">Atividades Recentes</MudText>
+            </div>
+            <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="TimelinePosition.Start">
+                <MudTimelineItem Color="MudBlazor.Color.Info" Size="MudBlazor.Size.Small">
+                    <MudText Typo="Typo.body2" Class="mx-muted">10:30</MudText>
+                    <MudText Typo="Typo.body1">Backup do banco MySQL **Pekus** concluído.</MudText>
+                </MudTimelineItem>
+                <MudTimelineItem Color="MudBlazor.Color.Success" Size="MudBlazor.Size.Small">
+                    <MudText Typo="Typo.body2" Class="mx-muted">09:15</MudText>
+                    <MudText Typo="Typo.body1">Novo pedido **#4521** recebido de Ana Souza.</MudText>
+                </MudTimelineItem>
+                <MudTimelineItem Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Small">
+                    <MudText Typo="Typo.body2" Class="mx-muted">Ontem</MudText>
+                    <MudText Typo="Typo.body1">Relatório mensal de Março exportado.</MudText>
+                </MudTimelineItem>
+            </MudTimeline>
+        </div>
+    </MudItem>
+
+    <MudItem xs="12" md="5">
+        <div class="chart-card">
+            <div class="chart-card-header mb-4">
+                <MudText Typo="Typo.h6" Class="fw-bold">Ações Rápidas</MudText>
+            </div>
+            <div class="d-flex flex-column gap-3">
+                <MudAlert Severity="Severity.Normal" Variant="Variant.Outlined" OnClick="@(() => Notificar("Nova Venda"))" Style="cursor:pointer">
+                    Registrar Nova Venda
+                </MudAlert>
+                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" OnClick="@(() => Notificar("Suporte"))" Style="cursor:pointer">
+                    Contatar Suporte Técnico
+                </MudAlert>
+                <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" OnClick="@(() => Notificar("Configuração"))" Style="cursor:pointer">
+                    Atualizar Dados MEI/PJ
+                </MudAlert>
+            </div>
+        </div>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private void Notificar(string acao)
+    {
+        Snackbar.Add($"Ação '{acao}' iniciada com sucesso!", Severity.Info);
+    }
+    // Dados do resumo mensal
+    List<ResumoItem> _resumo = new()
+    {
+        // Use MudBlazor.Color explicitamente aqui
+        new("Vendas",        "32.981",    72, MudBlazor.Color.Primary),
+        new("Receita",       "R$ 1,43M",  58, MudBlazor.Color.Success),
+        new("Lucro",         "R$ 645",    40, MudBlazor.Color.Warning),
+        new("Devoluções",    "1.2%",      12, MudBlazor.Color.Error),
+        new("Novos Clientes","847",       65, MudBlazor.Color.Info),
+    };
+
+    // Ajuste o record também para garantir
+    record ResumoItem(string Label, string Valor, double Progresso, MudBlazor.Color Cor);
+}
