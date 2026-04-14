@@ -1,15 +1,4 @@
-﻿// =====================================================
-// DADashboard.cs
-// Pasta: AppCode/DAO/DADashboard.cs
-// Acesso a dados do Dashboard — padrão Pekus
-// =====================================================
-// STATUS: dados estáticos (mock).
-// Quando o banco estiver pronto:
-//   1. Adicionar herança: DADashboard : DAOMySql
-//   2. Trocar construtor para (IDbConnection, IDbTransaction?)
-//   3. Substituir retornos estáticos por LoadRows() + ToObjectList<T>()
-// =====================================================
-using DashboardPekus.AppCode.Model;
+﻿using DashboardPekus.AppCode.Model;
 
 namespace DashboardPekus.AppCode.DAO;
 

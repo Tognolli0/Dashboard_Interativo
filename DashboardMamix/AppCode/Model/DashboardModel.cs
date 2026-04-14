@@ -1,8 +1,4 @@
-﻿// =====================================================
-// DashboardModel.cs
-// Pasta: AppCode/Model/DashboardModel.cs
-// =====================================================
-namespace DashboardPekus.AppCode.Model;
+﻿namespace DashboardPekus.AppCode.Model;
 
 /// <summary>
 /// Modelo dos cards de KPI do dashboard.

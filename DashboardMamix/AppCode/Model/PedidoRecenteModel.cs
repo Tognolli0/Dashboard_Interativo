@@ -1,8 +1,4 @@
-﻿// =====================================================
-// PedidoRecenteModel.cs
-// Pasta: AppCode/Model/PedidoRecenteModel.cs
-// =====================================================
-namespace DashboardPekus.AppCode.Model;
+﻿namespace DashboardPekus.AppCode.Model;
 
 /// <summary>
 /// Modelo de linha da tabela de pedidos recentes do dashboard.

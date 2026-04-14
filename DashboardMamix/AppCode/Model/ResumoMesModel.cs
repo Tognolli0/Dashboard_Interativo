@@ -1,8 +1,4 @@
-﻿// =====================================================
-// ResumoMesModel.cs
-// Pasta: AppCode/Model/ResumoMesModel.cs
-// =====================================================
-namespace DashboardPekus.AppCode.Model;
+﻿namespace DashboardPekus.AppCode.Model;
 
 /// <summary>
 /// Modelo dos indicadores de resumo mensal do dashboard.

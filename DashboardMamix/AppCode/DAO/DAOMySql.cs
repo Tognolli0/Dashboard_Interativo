@@ -1,14 +1,4 @@
-﻿// =====================================================
-// DAOMySql.cs
-// Pasta: AppCode/DAO/DAOMySql.cs
-// Classe base de acesso a dados — padrão Pekus
-// =====================================================
-// ATENÇÃO: Stub sem banco ativo.
-// Para ativar: instalar MySql.Data, implementar GetConnection()
-// e preencher StringConexao no appsettings.json.
-// =====================================================
-
-namespace DashboardPekus.AppCode.DAO;
+﻿namespace DashboardPekus.AppCode.DAO;
 
 public class DAOMySql
 {

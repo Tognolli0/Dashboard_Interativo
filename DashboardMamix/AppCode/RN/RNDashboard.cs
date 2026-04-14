@@ -1,9 +1,4 @@
-﻿// =====================================================
-// RNDashboard.cs
-// Pasta: AppCode/RN/RNDashboard.cs
-// Regras de negócio do Dashboard — padrão Pekus
-// =====================================================
-using DashboardPekus.AppCode.DAO;
+﻿using DashboardPekus.AppCode.DAO;
 using DashboardPekus.AppCode.Model;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;

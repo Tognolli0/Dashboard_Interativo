@@ -1,10 +1,4 @@
-﻿// =====================================================
-// RNBase.cs
-// Pasta: AppCode/RN/RNBase.cs
-// Classe base de todas as RNs — padrão Pekus
-// =====================================================
-
-namespace DashboardPekus.AppCode.RN;
+﻿namespace DashboardPekus.AppCode.RN;
 
 /// <summary>
 /// Classe base de todas as Regras de Negócio do DashboardPekus.
