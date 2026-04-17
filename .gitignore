@@ -349,6 +349,7 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+DashboardMamix/appsettings.Local.json
 
 # BeatPulse healthcheck temp database
 healthchecksdb

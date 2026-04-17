@@ -18,6 +18,7 @@ Dashboard corporativo em Blazor Server com foco em indicadores operacionais, car
 ## Status
 
 Projeto com dados mockados e arquitetura pronta para integrar com fonte de dados real no futuro.
+O arquivo `DashboardMamix/appsettings.Local.example.json` serve como ponto de partida para configuracao local.
 
 ## Objetivo de portfolio
 
